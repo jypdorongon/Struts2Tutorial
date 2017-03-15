@@ -6,6 +6,8 @@ public class TrainingAction extends AbsAction {
 
 	private String findTutorials;
 
+	private String language;
+
 	public String getFindTutorials() {
 		return findTutorials;
 	}
@@ -15,10 +17,18 @@ public class TrainingAction extends AbsAction {
 	}
 	
 	
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
 	@Override
 	public String execute() {
 		TrainingFinderService trainingService = new TrainingFinderService();
-		setFindTutorials(trainingService.getTutorial());
+		setFindTutorials(trainingService.getTutorial(getLanguage()));
 		return "success";
 	}
 
