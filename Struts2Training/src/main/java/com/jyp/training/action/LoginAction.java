@@ -1,7 +1,14 @@
 package com.jyp.training.action;
 
-public class LoginAction extends AbsAction {
+import com.opensymphony.xwork2.ActionSupport;
 
+public class LoginAction extends ActionSupport {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String userid;
 	private String password;
 	
@@ -26,13 +33,23 @@ public class LoginAction extends AbsAction {
 	}
 
 
-	@Override
 	public String execute() {
 		if(getUserid().equals("jyp") && getPassword().equals("pass"))
 		{
-			return "success";
+			return SUCCESS;
 		}
-		return "failure";
+		return ERROR;
+	}
+	
+	@Override
+	public void validate() {
+		if(getUserid().isEmpty()){
+			addFieldError(userid, "User id cannot be empty");
+		}
+
+		if(getPassword().isEmpty()){
+			addFieldError(password, "Password cannot be empty");
+		}
 	}
 
 }
