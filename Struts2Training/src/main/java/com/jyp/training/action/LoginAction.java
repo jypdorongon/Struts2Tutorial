@@ -1,5 +1,7 @@
 package com.jyp.training.action;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 public class LoginAction extends ActionSupport {
@@ -12,6 +14,26 @@ public class LoginAction extends ActionSupport {
 	private String userid;
 	private String password;
 	
+	
+
+	public void validate() {
+		if(StringUtils.isEmpty(getUserid())){
+			addFieldError("userid", "User id cannot be empty");
+		}
+
+		if(StringUtils.isEmpty(getPassword())){
+			addFieldError("password", "Password cannot be empty");
+		}
+	}
+
+	public String execute() {
+		if(getUserid().equals("jyp") && getPassword().equals("pass"))
+		{
+			return SUCCESS;
+		}
+		return LOGIN;
+	}
+
 	
 	public String getUserid() {
 		return userid;
@@ -33,23 +55,5 @@ public class LoginAction extends ActionSupport {
 	}
 
 
-	public String execute() {
-		if(getUserid().equals("jyp") && getPassword().equals("pass"))
-		{
-			return SUCCESS;
-		}
-		return ERROR;
-	}
-	
-	@Override
-	public void validate() {
-		if(getUserid().isEmpty()){
-			addFieldError(userid, "User id cannot be empty");
-		}
-
-		if(getPassword().isEmpty()){
-			addFieldError(password, "Password cannot be empty");
-		}
-	}
 
 }
