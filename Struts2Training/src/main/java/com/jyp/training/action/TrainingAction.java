@@ -1,8 +1,9 @@
 package com.jyp.training.action;
 
 import com.jyp.training.service.TrainingFinderService;
+import com.opensymphony.xwork2.ActionSupport;
 
-public class TrainingAction extends AbsAction {
+public class TrainingAction extends ActionSupport {
 
 	private String findTutorials;
 

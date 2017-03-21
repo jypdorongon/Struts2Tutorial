@@ -2,27 +2,44 @@
 <!DOCTYPE struts PUBLIC
    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
    "http://struts.apache.org/dtds/struts-2.0.dtd">
-<struts>   
+<struts>
 
-	<include file="login.xml"/>
+	<include file="login.xml" />
 
-   <package name="default" namespace="/tutorials" extends="struts-default">
-     
-      <action name="getTraining" 
-            class="com.jyp.training.action.TrainingAction" 
-            method="execute">
-            <result name="success">/success.jsp</result>
-            <result name="error">/error.jsp</result>
-      </action>
+	<package name="default" namespace="/tutorials" extends="struts-default">
 
-   </package>
-   
-   <!-- encapsulate jsp link with dummy action so that the user can see
-    the action and not the jsp so that the jsp is free to change if required -->
-    <package name="search" namespace="/" extends="struts-default">   
-      <action name="searchForm">
-            <result>/searchForm.jsp</result>
-      </action>
-   </package>
+		<action name="getTraining" class="com.jyp.training.action.TrainingAction"
+			method="execute">
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+	</package>
+
+
+
+	<package name="authentication" namespace="/authentication"
+		extends="struts-default">
+		<interceptors>
+			<interceptor name="authenticationInterceptor"
+				class="com.jyp.training.interceptor.AuthInterceptor" />
+		</interceptors>
+		<!-- encapsulate jsp link with dummy action so that the user can see the 
+			action and not the jsp so that the jsp is free to change if required -->
+		<action name="l*">
+			<result>/login.jsp</result>
+		</action>
+		<action name="authentication" class="com.jyp.training.action.LoginAction"
+			method="execute">
+			<result name="success" type="chain">authorizedOnly</result>
+			<result name="failure">/login.jsp</result>
+		</action>
+		<action name="authorizedOnly">
+			<interceptor-ref name="authenticationInterceptor" />
+			<result name="success">/authorizedPage.jsp</result>
+			<result name="failure">/login.jsp</result>
+		</action>
+
+	</package>
 
 </struts>
